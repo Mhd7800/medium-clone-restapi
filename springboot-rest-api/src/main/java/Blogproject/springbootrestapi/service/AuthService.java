@@ -1,6 +1,8 @@
 package Blogproject.springbootrestapi.service;
 
+import Blogproject.springbootrestapi.entity.User;
 import Blogproject.springbootrestapi.payload.LoginDto;
+import Blogproject.springbootrestapi.payload.UserNameDto;
 import Blogproject.springbootrestapi.payload.RegisterDto;
 import Blogproject.springbootrestapi.payload.RegisterDtoGoogle;
 
@@ -10,4 +12,6 @@ public interface AuthService {
     String register(RegisterDto registerDto);
 
     String registerFromGoogle(RegisterDtoGoogle registerDtoGoogle);
+
+    User getUserByUserName (UserNameDto userNameDto);
 }

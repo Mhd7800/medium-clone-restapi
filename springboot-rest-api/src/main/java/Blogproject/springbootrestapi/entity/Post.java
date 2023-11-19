@@ -26,6 +26,7 @@ public class Post {
     private Date CreatedDate;
     private String readTime;
     private String bannerImgUrl;
+    private String description;
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
 

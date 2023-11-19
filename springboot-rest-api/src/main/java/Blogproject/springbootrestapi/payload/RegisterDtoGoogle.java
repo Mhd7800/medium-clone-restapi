@@ -12,10 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterDtoGoogle {
+    //private Long id;
     private String name;
     private String email;
-    private Long id;
-    private String photoURL;
+    private String photourl;
 }
 
 

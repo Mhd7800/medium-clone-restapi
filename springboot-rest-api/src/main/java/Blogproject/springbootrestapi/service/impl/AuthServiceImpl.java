@@ -3,6 +3,7 @@ import Blogproject.springbootrestapi.entity.Role;
 import Blogproject.springbootrestapi.entity.User;
 import Blogproject.springbootrestapi.exception.BlogApiException;
 import Blogproject.springbootrestapi.payload.LoginDto;
+import Blogproject.springbootrestapi.payload.UserNameDto;
 import Blogproject.springbootrestapi.payload.RegisterDto;
 import Blogproject.springbootrestapi.payload.RegisterDtoGoogle;
 import Blogproject.springbootrestapi.repository.RoleRepository;
@@ -83,7 +84,7 @@ public class AuthServiceImpl implements AuthService {
         user.setName(registerDtoGoogle.getName());
         user.setEmail(registerDtoGoogle.getEmail());
         //user.setId(registerDtoGoogle.getId());
-        //user.setPhotoURL(registerDtoGoogle.getPhotoURL());
+        user.setPhotoURL(registerDtoGoogle.getPhotourl());
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findByName("ROLE_USER").get();
         roles.add(userRole);
@@ -93,5 +94,10 @@ public class AuthServiceImpl implements AuthService {
 
         return "User registered successfully";
 
+    }
+
+    @Override
+    public User getUserByUserName(UserNameDto userNameDto) {
+          return userRepository.findByUsername(userNameDto.getUsername());
     }
 }

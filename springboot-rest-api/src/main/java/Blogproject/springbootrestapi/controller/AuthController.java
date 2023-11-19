@@ -1,6 +1,6 @@
 package Blogproject.springbootrestapi.controller;
 
-import Blogproject.springbootrestapi.exception.BlogApiException;
+import Blogproject.springbootrestapi.entity.User;
 import Blogproject.springbootrestapi.payload.JWTAuthResponse;
 import Blogproject.springbootrestapi.payload.LoginDto;
 import Blogproject.springbootrestapi.payload.RegisterDto;
@@ -10,11 +10,8 @@ import Blogproject.springbootrestapi.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.attribute.UserPrincipal;
-import java.sql.PreparedStatement;
 import java.util.Map;
 
 @RestController
@@ -57,7 +54,7 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PostMapping("/check-user")
+    @PostMapping(value = {"/check-user"})
     public ResponseEntity<?> checkUser(@RequestBody Map<String, String> request) {
         String email = request.get("email");
         // Check if the user exists in your database
@@ -72,5 +69,16 @@ public class AuthController {
             return ResponseEntity.noContent().build();
         }
 
+    }
+
+    @GetMapping(value = {"/get-user"})
+    public ResponseEntity<User> getUserByUsername (@RequestParam String username)
+    {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
