@@ -40,10 +40,10 @@ public class PostController {
 
     @SecurityRequirement(
             name = "Bearer Authentication")
-    @PreAuthorize("hasRole('USER')")
+    //@PreAuthorize("hasRole('USER')")
     @PostMapping("api/v1/posts")
-    public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto
-    ){
+    public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto)
+    {
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
 

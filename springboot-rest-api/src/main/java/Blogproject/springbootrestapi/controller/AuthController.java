@@ -72,9 +72,9 @@ public class AuthController {
     }
 
     @GetMapping(value = {"/get-user"})
-    public ResponseEntity<User> getUserByUsername (@RequestParam String username)
+    public ResponseEntity<User> getUserByEmail (@RequestParam String email)
     {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByEmail(email);
         if (user != null) {
             return ResponseEntity.ok(user);
         } else {
