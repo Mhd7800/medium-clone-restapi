@@ -1,5 +1,6 @@
 package Blogproject.springbootrestapi.controller;
 
+import Blogproject.springbootrestapi.entity.Post;
 import Blogproject.springbootrestapi.payload.PostDto;
 import Blogproject.springbootrestapi.payload.PostResponse;
 import Blogproject.springbootrestapi.service.PostService;
@@ -65,6 +66,7 @@ public class PostController {
     ){
         return postService.getAllPosts(pageNo, pageSize,sortBy, sortDir);
     }
+
 
 //    @Operation(
 //            summary = "Get Post By Id REST API",
@@ -146,6 +148,17 @@ public class PostController {
         return ResponseEntity.ok(postDtos);
     }
 
+    @GetMapping("api/v1/posts/{title}")
+    public ResponseEntity<PostDto> getPostByTitle(@PathVariable String title)
+    {
+        return ResponseEntity.ok(postService.getPostByTitle(title));
+    }
+
+    @GetMapping("/api/v1/posts/foryou")
+    public ResponseEntity<List<PostDto>> getRandomPosts() {
+        List<PostDto> randomPosts = postService.getRandomPosts();
+        return new ResponseEntity<>(randomPosts, HttpStatus.OK);
+    }
 
 
 }

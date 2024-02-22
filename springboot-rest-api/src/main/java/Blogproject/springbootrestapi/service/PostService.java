@@ -1,7 +1,9 @@
 package Blogproject.springbootrestapi.service;
 
+import Blogproject.springbootrestapi.entity.Post;
 import Blogproject.springbootrestapi.payload.PostDto;
 import Blogproject.springbootrestapi.payload.PostResponse;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
@@ -13,5 +15,10 @@ public interface PostService {
     PostDto updatePost(PostDto postDto, long id);
     void deletePostById(long id);
     List<PostDto> getPostsByCategoryId(Long categoryId);
+
+    PostDto getPostByTitle (String title);
+
+    List<PostDto> getRandomPosts();
+
 
 }

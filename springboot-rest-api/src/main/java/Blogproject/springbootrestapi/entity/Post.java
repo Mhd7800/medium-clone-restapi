@@ -1,6 +1,8 @@
 package Blogproject.springbootrestapi.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -21,12 +23,14 @@ public class Post {
     private Long id;
     @Column(name="title", nullable = false)
     private String title;
-    private String Content;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date CreatedDate;
-    private String readTime;
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
+    private String content;
+    private String created_date;
+    private String read_time;
     private String bannerImgUrl;
     private String description;
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
 
@@ -34,7 +38,11 @@ public class Post {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    private String topic;
+    private int claps;
+
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     User user;
 }

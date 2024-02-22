@@ -30,6 +30,8 @@ public class User {
 
     private String photoURL;
     private String bio;
+    private String about;
+    //private String category;
 
     @OneToMany(mappedBy = "user")
     private List<Post> myList ;

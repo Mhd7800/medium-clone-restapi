@@ -3,7 +3,6 @@ import Blogproject.springbootrestapi.entity.Role;
 import Blogproject.springbootrestapi.entity.User;
 import Blogproject.springbootrestapi.exception.BlogApiException;
 import Blogproject.springbootrestapi.payload.LoginDto;
-import Blogproject.springbootrestapi.payload.UserNameDto;
 import Blogproject.springbootrestapi.payload.RegisterDto;
 import Blogproject.springbootrestapi.payload.RegisterDtoGoogle;
 import Blogproject.springbootrestapi.repository.RoleRepository;
@@ -96,8 +95,8 @@ public class AuthServiceImpl implements AuthService {
 
     }
 
-    @Override
-    public User getUserByUserName(UserNameDto userNameDto) {
-          return userRepository.findByUsername(userNameDto.getUsername());
-    }
+    /*@Override
+    public User getUserByUserName(UserDto userDto) {
+          return userRepository.findByUsername(userDto.getUsername());
+    }*/
 }

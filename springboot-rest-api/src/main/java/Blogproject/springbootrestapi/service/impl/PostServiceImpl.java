@@ -17,7 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +28,9 @@ public class PostServiceImpl implements PostService {
     private CategoryRepository categoryRepository;
     private UserRepository userRepository;
 
-    //Autowired is no needed here
+    //private List<Post> allPosts = new ArrayList<>();
+
+    //Autowired is not needed here
     public PostServiceImpl(ModelMapper mapper,
                            PostRepository postRepository,
                            CategoryRepository categoryRepository,
@@ -37,7 +39,10 @@ public class PostServiceImpl implements PostService {
         this.mapper = mapper;
         this.categoryRepository = categoryRepository;
         this.userRepository= userRepository;
+        //this.allPosts = allPosts;
     }
+
+
 
     @Override
     public PostDto createPost(PostDto postDto) {
@@ -47,12 +52,12 @@ public class PostServiceImpl implements PostService {
 
         // Fetch the user from the database based on user_id
         User user = userRepository.findById(postDto.getUser_id())
-                .orElseThrow(() -> {
-                    return new RessourceNotFoundException("User", "id", postDto.getUser_id());
-                });
+                .orElseThrow(() -> new RessourceNotFoundException("User", "id", postDto.getUser_id()));
 
         // Convert Dto to Entity
         Post post = mapToEntity(postDto);
+
+        //post.setCreated_date(postDto.getCreated_date());
 
         // Associate the user with the post
         post.setUser(user);
@@ -64,8 +69,22 @@ public class PostServiceImpl implements PostService {
         return mapToDTO(newPost);
     }
 
-
     //Convert Entity to Dto
+
+    private PostDto mapToDTOV2(Post post, Long userId) {
+        PostDto postDto = new PostDto();
+        postDto.setId(post.getId());
+        postDto.setTitle(post.getTitle());
+        postDto.setContent(post.getContent());
+        postDto.setCreated_date(post.getCreated_date());
+        postDto.setRead_time(post.getRead_time());
+        postDto.setUser_id(userId); // Set the user_id
+        //postDto.setComments(mapCommentsToDTO(post.getComments()));
+        postDto.setTopic(post.getTopic());
+        postDto.setClaps(post.getClaps());
+        return postDto;
+    }
+
     private PostDto mapToDTO(Post post)
     {
         PostDto postDto = mapper.map(post,PostDto.class);
@@ -157,6 +176,35 @@ public class PostServiceImpl implements PostService {
 
         return posts.stream().map((post)->mapToDTO(post))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public PostDto getPostByTitle(String title) {
+        Post post = postRepository.findPostByTitle(title);
+        return mapToDTO(post);
+    }
+
+
+    @Override
+    public List<PostDto> getRandomPosts() {
+        List<Post> allPosts = postRepository.findAll();
+
+        // Shuffle the list randomly
+        Collections.shuffle(allPosts);
+
+        // Determine the number of posts to return (either 10 or all)
+        int numberOfPostsToReturn = Math.min(allPosts.size(), 10);
+
+        // Get a sublist of posts (either 10 or all)
+        List<Post> randomPosts = allPosts.subList(0, numberOfPostsToReturn);
+
+        // Convert the list of Post entities to a list of PostDto objects
+        //List<PostDto> postDtos = randomPosts.stream().map(this::mapToDTO).collect(Collectors.toList());
+        List<PostDto> postDtos = randomPosts.stream()
+                .map(post -> mapToDTOV2(post, post.getUser().getId()))
+                .collect(Collectors.toList());
+
+        return postDtos;
     }
 
 

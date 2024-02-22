@@ -2,9 +2,7 @@ package Blogproject.springbootrestapi.payload;
 
 import Blogproject.springbootrestapi.entity.Comment;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -22,15 +20,19 @@ public class PostDto {
     @NotEmpty
     @Size(min = 2,message = "Post Title Should have at least 2 characters")
     private String title;
-
-
+    private Long id;
+    private String read_time;
     //Post content should not be null or empty
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     @NotEmpty
     private String content;
-
+    private String created_date;
     //@NotEmpty
     private Long user_id;
     private Set<CommentDto> comments;
+    private String topic;
+    private int claps;
     //@Schema(description = "Blog Post Category")
    // private Long categoryId;
 

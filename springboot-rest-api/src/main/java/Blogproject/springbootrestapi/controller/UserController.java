@@ -1,23 +1,74 @@
 package Blogproject.springbootrestapi.controller;
 
 import Blogproject.springbootrestapi.entity.User;
+import Blogproject.springbootrestapi.payload.PostDto;
+import Blogproject.springbootrestapi.payload.UserDto;
 import Blogproject.springbootrestapi.repository.UserRepository;
+import Blogproject.springbootrestapi.service.UserService;
 import com.sun.security.auth.UserPrincipal;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/v1/user")
+@RequestMapping("api/v1/user/")
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
+
+
+    private UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+
+
+    @GetMapping("{id}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") Long userId)
+    {
+        return ResponseEntity.ok(userService.getUserById(userId));
+    }
+
+    @GetMapping("email/{email}")
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email)
+    {
+        return ResponseEntity.ok(userService.getUserByEmail(email));
+    }
+
+    @PutMapping("update/{id}")
+    public ResponseEntity<String> updateUserAbout (@RequestBody UserDto userDto, @PathVariable Long id)
+    {
+        userService.updateUserAbout(userDto,id);
+        return new ResponseEntity<>("About updated successfully",HttpStatus.OK);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<String> updateUser (@RequestBody UserDto userDto, @PathVariable Long id)
+    {
+        userService.updateUser(userDto, id);
+        return new ResponseEntity<>("User updated successfully",HttpStatus.OK);
+    }
+
+    @GetMapping("/allUsers")
+    public ResponseEntity<List<User>> getAllUsers()
+    {
+        //List userService.getAllUser();
+        return new ResponseEntity<>(userService.getAllUser(),HttpStatus.OK);
+    }
+
+    @PostMapping("/{userId}/addPostToList/postId")
+    public ResponseEntity<String> addPostToUserList(@PathVariable Long userId, @PathVariable Long postId)
+    {
+        userService.addPostToUserList(userId,postId);
+        return ResponseEntity.ok("Post added successfully");
+    }
 
 }
 
