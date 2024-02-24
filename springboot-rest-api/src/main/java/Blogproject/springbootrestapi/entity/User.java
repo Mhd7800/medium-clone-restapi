@@ -37,8 +37,10 @@ public class User {
     private List<Post> myList ;
 
     @ManyToMany
-    @JoinTable(name = "user_saved_list")
-    private List<Post> savedList ;
+    @JoinTable(name = "user_saved_posts",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id"))
+    private List<Post> savedPosts;
 
     @ManyToMany
     @JoinTable(name = "user_reading_history")

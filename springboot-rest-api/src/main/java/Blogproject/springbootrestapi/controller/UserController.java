@@ -4,6 +4,7 @@ import Blogproject.springbootrestapi.entity.User;
 import Blogproject.springbootrestapi.payload.PostDto;
 import Blogproject.springbootrestapi.payload.UserDto;
 import Blogproject.springbootrestapi.repository.UserRepository;
+import Blogproject.springbootrestapi.service.PostService;
 import Blogproject.springbootrestapi.service.UserService;
 import com.sun.security.auth.UserPrincipal;
 import jakarta.validation.Valid;
@@ -23,9 +24,11 @@ public class UserController {
 
 
     private UserService userService;
+    private PostService postService;
+    public UserController(UserService userService, PostService postService) {
 
-    public UserController(UserService userService) {
         this.userService = userService;
+        this.postService = postService;
     }
 
 
@@ -63,11 +66,17 @@ public class UserController {
         return new ResponseEntity<>(userService.getAllUser(),HttpStatus.OK);
     }
 
-    @PostMapping("/{userId}/addPostToList/postId")
+    @PostMapping("/{userId}/addPostToList/{postId}")
     public ResponseEntity<String> addPostToUserList(@PathVariable Long userId, @PathVariable Long postId)
     {
         userService.addPostToUserList(userId,postId);
         return ResponseEntity.ok("Post added successfully");
+    }
+
+    @GetMapping("/getUserList/{userId}")
+    public ResponseEntity<List<PostDto>> getUserList (@PathVariable Long userId)
+    {
+        return ResponseEntity.ok(postService.getUserList(userId));
     }
 
 }

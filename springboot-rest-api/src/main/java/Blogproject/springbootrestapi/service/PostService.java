@@ -19,6 +19,11 @@ public interface PostService {
     PostDto getPostByTitle (String title);
 
     List<PostDto> getRandomPosts();
+    List<PostDto> getPostByTopic(String topic);
+
+    List<String> getPopularTopics();
+
+    List<PostDto> getUserList(Long userId);
 
 
 }

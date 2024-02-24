@@ -1,6 +1,7 @@
 package Blogproject.springbootrestapi.service;
 
 import Blogproject.springbootrestapi.entity.User;
+import Blogproject.springbootrestapi.payload.PostDto;
 import Blogproject.springbootrestapi.payload.UserDto;
 
 import java.util.List;
@@ -16,4 +17,7 @@ public interface UserService {
     List<User> getAllUser();
 
     void addPostToUserList(Long userId, Long postId);
+
+
+
 }

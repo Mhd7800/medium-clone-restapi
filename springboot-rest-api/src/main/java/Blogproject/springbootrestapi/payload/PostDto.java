@@ -1,12 +1,14 @@
 package Blogproject.springbootrestapi.payload;
 
 import Blogproject.springbootrestapi.entity.Comment;
+import Blogproject.springbootrestapi.entity.Post;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -31,6 +33,7 @@ public class PostDto {
     //@NotEmpty
     private Long user_id;
     private Set<CommentDto> comments;
+    private List<PostDto> savedPosts;
     private String topic;
     private int claps;
     //@Schema(description = "Blog Post Category")

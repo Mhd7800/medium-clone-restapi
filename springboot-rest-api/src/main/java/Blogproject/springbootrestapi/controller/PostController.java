@@ -160,5 +160,16 @@ public class PostController {
         return new ResponseEntity<>(randomPosts, HttpStatus.OK);
     }
 
+    @GetMapping("/api/v1/posts/topics/{topic}")
+    public ResponseEntity<List<PostDto>> getPostsByTopic (@PathVariable String topic)
+    {
+        return ResponseEntity.ok(postService.getPostByTopic(topic));
+    }
+
+    @GetMapping("/api/v1/posts/popular-topics")
+    public ResponseEntity<List<String>> popularTopics()
+    {
+        return ResponseEntity.ok(postService.getPopularTopics());
+    }
 
 }

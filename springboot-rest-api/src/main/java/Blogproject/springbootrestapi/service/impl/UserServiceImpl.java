@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -83,10 +84,11 @@ public class UserServiceImpl implements UserService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new RessourceNotFoundException("Post", "id", postId));
 
-        user.getMyList().add(post);
+        user.getSavedPosts().add(post);
         userRepository.save(user);
-
     }
+
+
 
 
     private UserDto mapToDTO(User user)
@@ -97,8 +99,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private User mapToEntity(UserDto userDto)
-    { User user = mapper.map(userDto,User.class);
-
+    {
+        User user = mapper.map(userDto,User.class);
         return user;
     }
 

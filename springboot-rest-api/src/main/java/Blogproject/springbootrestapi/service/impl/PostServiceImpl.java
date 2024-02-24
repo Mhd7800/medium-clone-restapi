@@ -87,12 +87,18 @@ public class PostServiceImpl implements PostService {
 
     private PostDto mapToDTO(Post post)
     {
-        PostDto postDto = mapper.map(post,PostDto.class);
-        //PostDto postDto = new PostDto();
-//        postDto.setId(post.getId());
-//        postDto.setDescription(post.getDescription());
-//        postDto.setTitle(post.getTitle());
-//        postDto.setContent(post.getContent());
+        //PostDto postDto = mapper.map(post,PostDto.class);
+        PostDto postDto = new PostDto();
+       postDto.setId(post.getId());
+       postDto.setUser_id(post.getUser().getId());
+        postDto.setTitle(post.getTitle());
+        postDto.setContent(post.getContent());
+        postDto.setClaps(post.getClaps());
+        postDto.setCreated_date(post.getCreated_date());
+        postDto.setRead_time(post.getRead_time());
+        postDto.setTopic(post.getTopic());
+
+
         return postDto;
 
     }
@@ -207,5 +213,42 @@ public class PostServiceImpl implements PostService {
         return postDtos;
     }
 
+    @Override
+    public List<PostDto> getPostByTopic(String topic) {
+
+        List<Post> posts = postRepository.findPostByTopic(topic);
+
+        return posts.stream().map((post)->mapToDTO(post))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getPopularTopics() {
+        // Fetch all posts from the database
+        List<Post> allPosts = postRepository.findAll();
+
+        // Count occurrences of each topic
+        Map<String, Long> topicCounts = allPosts.stream()
+                .collect(Collectors.groupingBy(Post::getTopic, Collectors.counting()));
+
+        // Sort topics by their occurrence count in descending order
+        List<String> popularTopics = topicCounts.entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                .limit(5) // Get the top 5 most popular topics
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        return popularTopics;
+    }
+
+    @Override
+    public List<PostDto> getUserList(Long userId) {
+
+        User user = userRepository.findById(userId).orElseThrow(() -> new RessourceNotFoundException("User","id",userId));
+        List<Post> posts = user.getSavedPosts();
+
+        return posts.stream().map((post)->mapToDTO(post))
+                .collect(Collectors.toList());
+    }
 
 }
