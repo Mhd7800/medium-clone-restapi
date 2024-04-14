@@ -45,4 +45,7 @@ public class Post {
     @JsonIgnore
     @JoinColumn(name = "user_id")
     User user;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private Set<UserList> userPosts;
 }

@@ -77,16 +77,7 @@ public class UserServiceImpl implements UserService {
         return allUsers;
     }
 
-    @Override
-    public void addPostToUserList(Long userId, Long postId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RessourceNotFoundException("User", "id", userId));
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RessourceNotFoundException("Post", "id", postId));
 
-        user.getSavedPosts().add(post);
-        userRepository.save(user);
-    }
 
 
 

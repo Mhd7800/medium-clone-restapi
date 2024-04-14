@@ -241,14 +241,21 @@ public class PostServiceImpl implements PostService {
         return popularTopics;
     }
 
+
+
     @Override
-    public List<PostDto> getUserList(Long userId) {
-
-        User user = userRepository.findById(userId).orElseThrow(() -> new RessourceNotFoundException("User","id",userId));
-        List<Post> posts = user.getSavedPosts();
-
-        return posts.stream().map((post)->mapToDTO(post))
+    public List<PostDto> getPostByUserId(Long id) {
+        List<Post> userPosts = postRepository.findByUser_Id(id);
+        return userPosts.stream().map((post)->mapToDTO(post))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void Clap(Long postId, int claps) {
+        Post post = postRepository.findPostById(postId);
+        post.setClaps(claps+1);
+        postRepository.save(post);
+    }
+
 
 }

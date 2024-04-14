@@ -23,7 +23,11 @@ public interface PostService {
 
     List<String> getPopularTopics();
 
-    List<PostDto> getUserList(Long userId);
+    List<PostDto> getPostByUserId(Long id);
+
+    void Clap (Long postId, int claps);
+
+
 
 
 }

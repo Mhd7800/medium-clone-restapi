@@ -31,8 +31,6 @@ public class UserController {
         this.postService = postService;
     }
 
-
-
     @GetMapping("{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") Long userId)
     {
@@ -66,18 +64,7 @@ public class UserController {
         return new ResponseEntity<>(userService.getAllUser(),HttpStatus.OK);
     }
 
-    @PostMapping("/{userId}/addPostToList/{postId}")
-    public ResponseEntity<String> addPostToUserList(@PathVariable Long userId, @PathVariable Long postId)
-    {
-        userService.addPostToUserList(userId,postId);
-        return ResponseEntity.ok("Post added successfully");
-    }
 
-    @GetMapping("/getUserList/{userId}")
-    public ResponseEntity<List<PostDto>> getUserList (@PathVariable Long userId)
-    {
-        return ResponseEntity.ok(postService.getUserList(userId));
-    }
 
 }
 

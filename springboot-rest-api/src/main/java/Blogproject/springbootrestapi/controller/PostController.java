@@ -130,9 +130,9 @@ public class PostController {
             description = "Http Status 200 SUCCESS"
     )
     //Delete by Id
-    @SecurityRequirement(
+    /*@SecurityRequirement(
             name = "Bearer Authentication")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")*/
     @DeleteMapping("api/v1/posts/{id}")
     public ResponseEntity<String> deletePost(@PathVariable long id)
     {
@@ -169,7 +169,21 @@ public class PostController {
     @GetMapping("/api/v1/posts/popular-topics")
     public ResponseEntity<List<String>> popularTopics()
     {
+
         return ResponseEntity.ok(postService.getPopularTopics());
+    }
+
+    @GetMapping("/api/v1/posts/getPostByUserId/{id}")
+    public ResponseEntity<List<PostDto>> getPostByUserId(@PathVariable Long id)
+    {
+        return  ResponseEntity.ok(postService.getPostByUserId(id));
+    }
+
+    @PutMapping("/api/v1/posts/Clap/{postId}")
+    public ResponseEntity<String> Clap (@PathVariable Long postId, @RequestParam int claps)
+    {
+         postService.Clap(postId,claps);
+        return new ResponseEntity<>("clap increased",HttpStatus.OK);
     }
 
 }

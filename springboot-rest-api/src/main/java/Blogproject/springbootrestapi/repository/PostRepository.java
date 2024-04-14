@@ -15,5 +15,8 @@ public interface PostRepository  extends JpaRepository<Post, Long> {
 
     List<Post> findPostByTopic(String topic);
 
+    List<Post> findByUser_Id(Long userId);
+
+    Post findPostById(Long postId);
 
 }

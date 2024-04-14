@@ -65,6 +65,7 @@ public class SecurityConfig {
 
                                 .requestMatchers("/api/v1/auth/**").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/api/v1/**").permitAll()
+                                .requestMatchers(HttpMethod.DELETE,"/api/v1/**").permitAll()
                                 .requestMatchers(HttpMethod.PUT,"/api/v1/**").permitAll()
                                 .requestMatchers("/swagger-ui/**").permitAll()
                                 .requestMatchers("/v3/api-docs/**").permitAll()

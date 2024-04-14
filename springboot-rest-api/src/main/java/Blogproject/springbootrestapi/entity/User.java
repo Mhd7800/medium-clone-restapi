@@ -33,14 +33,17 @@ public class User {
     private String about;
     //private String category;
 
-    @OneToMany(mappedBy = "user")
-    private List<Post> myList ;
+//    @OneToMany(mappedBy = "user")
+//    private List<Post> myList ;
+//
+//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+//    @JoinTable(name = "user_saved_posts",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "post_id"))
+//    private List<Post> savedPosts;
 
-    @ManyToMany
-    @JoinTable(name = "user_saved_posts",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "post_id"))
-    private List<Post> savedPosts;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<UserList> userPosts;
 
     @ManyToMany
     @JoinTable(name = "user_reading_history")
